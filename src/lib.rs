@@ -14,6 +14,7 @@ pub struct NativeVsync {
 }
 
 
+#[derive(Debug)]
 pub enum NativeVsyncError {
     InvalidArgs,
     CreateFailed,
@@ -77,6 +78,20 @@ impl NativeVsync {
             Err(NativeVsyncError::RawErr(res))
         }
     }
+
+    pub unsafe fn request_raw_callback_with_self(self, callback: OH_NativeVSync_FrameCallback) -> Result<(), NativeVsyncError> {
+        let res = unsafe {
+            OH_NativeVSync_RequestFrame(self.raw, callback, self.raw as *mut c_void)
+        };
+        if res == 0 {
+            core::mem::forget(self);
+            Ok(())
+        } else {
+            // implicit drop / destroy
+            Err(NativeVsyncError::RawErr(res))
+        }
+    }
+
 
     /// Returns the vsync period in nanoseconds.
     pub fn get_period(&self) -> Result<u64, NativeVsyncError>  {
