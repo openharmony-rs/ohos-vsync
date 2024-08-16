@@ -13,6 +13,7 @@ pub struct NativeVsync {
     raw: *mut OH_NativeVSync,
 }
 
+
 pub enum NativeVsyncError {
     InvalidArgs,
     CreateFailed,
@@ -32,6 +33,30 @@ impl NativeVsync {
                 raw,
             }
         )
+    }
+
+    /// Create from a raw pointer to a valid `OH_NativeVSync` instance.
+    /// 
+    /// # Safety
+    /// 
+    /// `native_vsync` must be a valid, live OH_NativeVSync instance. 
+    /// The ownership of `native_vsync` must be exclusive and is transferred to the new object.
+    pub unsafe fn from_raw(native_vsync: *mut OH_NativeVSync) -> Self {
+        debug_assert!(!native_vsync.is_null());
+        debug_assert!(native_vsync.is_aligned());
+        Self {
+            raw: native_vsync
+        }
+    }
+
+    /// Returns the refernece to the raw OH_NativeVSync and consumes self
+    /// 
+    /// `NativeVsync::from_raw` can be used to reconstruct Self later.
+    /// This can be used to pass the owned NativeVsync object to the callback function.
+    pub fn into_raw(self) -> *mut OH_NativeVSync {
+        let raw = self.raw;
+        core::mem::forget(self);
+        raw
     }
 
     /// Request a Callback to `callback` on the next Vsync frame
