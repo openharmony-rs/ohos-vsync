@@ -1,0 +1,18 @@
+[package]
+name = "ohos-vsync"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/openharmony-rs/ohos-vsync"
+description = "Bindings to the `native_vsync` library on OpenHarmony"
+keywords = ["OpenHarmony", "HarmonyOS"]
+license = "Apache-2.0"
+
+[dependencies]
+ohos-sys = { git = "https://github.com/openharmony-rs/ohos-sys.git", branch = "jschwender/vsync", features = ["vsync"]}
+log = {version = "0.4", optional = true}
+
+[features]
+log = ["dep:log"]
+
+[package.metadata.docs.rs]
+default-target = "aarch64-unknown-linux-ohos"
