@@ -78,11 +78,28 @@ impl NativeVsync {
         }
     }
 
+    /// Request a Callback to `callback` on the next Vsync frame passing self to the callback
+    ///
+    /// The Callback receives a raw pointer to the native vsync instance, that can be used with
+    /// `NativeVsync::from_raw()` to pass `Self` to the callback.
+    ///
+    /// # Safety
+    ///
+    /// Probably this function is safe to use. The only open question is if it's sound for the
+    /// callback to reconstruct the NativeVsync object and then drop the object, since that would
+    /// also destroy the thread the callback is running on. It's unclear if the thread would be
+    /// destroyed immediately, or after the callback returns.
+    ///
+    /// ## Note
+    ///
+    /// The callback function should be aware that `data` points to the native vsync instance.
+    /// Failure to reconstruct `NativeVsync` would lead to a memory leak.
     pub unsafe fn request_raw_callback_with_self(
         self,
         callback: OH_NativeVSync_FrameCallback,
     ) -> Result<(), NativeVsyncError> {
         let res =
+            // SAFETY:
             unsafe { OH_NativeVSync_RequestFrame(self.raw, callback, self.raw as *mut c_void) };
         if res == 0 {
             core::mem::forget(self);
