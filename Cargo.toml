@@ -1,6 +1,6 @@
 [package]
 name = "ohos-vsync"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 repository = "https://github.com/openharmony-rs/ohos-vsync"
 description = "Bindings to the `native_vsync` library on OpenHarmony"
@@ -8,7 +8,7 @@ keywords = ["OpenHarmony", "HarmonyOS", "vsync"]
 license = "Apache-2.0"
 
 [dependencies]
-ohos-sys = { version = "0.2.2", features = ["vsync"]}
+ohos-sys = { version = "0.3.0", features = ["vsync"]}
 log = {version = "0.4", optional = true}
 
 [features]
