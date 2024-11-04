@@ -10,13 +10,13 @@ checksum = "a7a70ba024b9dc04c27ea2f0c0548feb474ec5c54bba33a7f72f873a39d07b24"
 
 [[package]]
 name = "ohos-sys"
-version = "0.3.0"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0f2fd4c1b349c53cd06dfa959bb53076453960d793961caafd367e64c3bb5522"
+checksum = "8a786868a20866e5682c6666ebd84435563d7ff2d6088576d958c1bb7475e460"
 
 [[package]]
 name = "ohos-vsync"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "log",
  "ohos-sys",
