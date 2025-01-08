@@ -5,7 +5,7 @@
 use core::ffi::{c_int, c_void};
 
 use log::debug;
-use ohos_sys::vsync::{
+use ohos_vsync_sys::{
     OH_NativeVSync, OH_NativeVSync_Create, OH_NativeVSync_Destroy, OH_NativeVSync_FrameCallback,
     OH_NativeVSync_GetPeriod, OH_NativeVSync_RequestFrame,
 };
@@ -24,6 +24,7 @@ pub enum NativeVsyncError {
 }
 
 impl NativeVsync {
+    /// Creates a new `NativeVsync` instance with the given name.
     pub fn new(name: &str) -> Result<Self, NativeVsyncError> {
         let name_len: u32 = name
             .len()
@@ -47,7 +48,7 @@ impl NativeVsync {
         Self { raw: native_vsync }
     }
 
-    /// Returns the refernece to the raw OH_NativeVSync and consumes self
+    /// Returns the reference to the raw OH_NativeVSync and consumes self
     ///
     /// `NativeVsync::from_raw` can be used to reconstruct Self later.
     /// This can be used to pass the owned NativeVsync object to the callback function.
